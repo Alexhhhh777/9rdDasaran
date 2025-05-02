@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <title>9-րդ դասարանի Քվիզ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 30px;
+            background-color: #4285F4;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        #result {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9-րդ Դասարանի Հարցաշար</h1>
+    <form id="quizForm"></form>
+    <button onclick="submitQuiz()">Ուղարկել</button>
+    <div id="result"></div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "Որն է 25-ի քառակուսի արմատը?",
+                options: ["4", "5", "6", "7"],
+                correctAnswer: "5"
+            },
+            {
+                question: "Ով էր Հայաստանի առաջին հանրապետության առաջին նախագահը?",
+                options: ["Լևոն Տեր-Պետրոսյան", "Արամ Մանուկյան", "Վազգեն Սարգսյան", "Սերգո Սարգսյան"],
+                correctAnswer: "Արամ Մանուկյան"
+            },
+            {
+                question: "Ով է գրել «Անուշ» վեպը?",
+                options: ["Հովհաննես Թումանյան", "Ավետիք Իսահակյան", "Դերենիկ Դեմիրճյան", "Եղիշե Չարենց"],
+                correctAnswer: "Հովհաննես Թումանյան"
+            },
+            {
+                question: "Որ երկիրն է հիմնադրել ԵՄ?",
+                options: ["Գերմանիա", "Ֆրանսիա", "Իտալիա", "Բելգիա"],
+                correctAnswer: "Գերմանիա"
+            },
+            {
+                question: "Որն է մայրաքաղաքը Հայաստան?",
+                options: ["Վանաձոր", "Գյումրի", "Երևան", "Ստեփանակերտ"],
+                correctAnswer: "Երևան"
+            },
+            {
+                question: "Ով է եղել Նապոլեոն Բոնապարտի դեմ պայքարող գլխավոր հրամանատարներից մեկը?",
+                options: ["Վաթերլոյի հերոսը", "Նելսոնը", "Կուտուզովը", "Մարշալ Ֆոշը"],
+                correctAnswer: "Կուտուզովը"
+            },
+            {
+                question: "Ի՞նչ է կոչվում մոտավորապես վերակառուցված նախատիպը:",
+                options: ["Մոդուլ", "Մոդել", "Տարբերակ", "Պլան"],
+                correctAnswer: "Մոդել"
+            },
+            {
+                question: "Որտեղ է հիմնադրվել առաջին ավտոմեքենան?",
+                options: ["ԱՄՆ", "Ֆրանսիա", "Գերմանիա", "Իտալիա"],
+                correctAnswer: "Գերմանիա"
+            },
+            {
+                question: "Ով է ստեղծել լյումինեսցենտային լամպը?",
+                options: ["Թոմաս Էդիսոն", "Նիկոլա Տեսլա", "Էդմունդ Գերլիգ", "Հայնրիխ Գյոբել"],
+                correctAnswer: "Էդմունդ Գերլիգ"
+            },
+            {
+                question: "Որ երկիրը հայտնի է որպես Պեգասուս ավտոմեքենաների արտադրողը?",
+                options: ["Իսպանիա", "Իտալիա", "Գերմանիա", "ԱՄՆ"],
+                correctAnswer: "Իսպանիա"
+            },
+            {
+                question: "Որն է ստեղեկատվական համակարգը?",
+                options: ["Արխիվ", "Համակարգիչ", "Մարդ-համակարգիչ միջավայր", "Տվյալների բազա"],
+                correctAnswer: "Մարդ-համակարգիչ միջավայր"
+            },
+            {
+                question: "Ով էր Չեխիայի առաջին նախագահը?",
+                options: ["Վացլավ Հավել", "Մասարիկ", "Միլոշ Զեման", "Կառել Գոտտ"],
+                correctAnswer: "Մասարիկ"
+            },
+            {
+                question: "Ինչպես կոչվում է համաշխարհային հայտնի այգիներից մեկը Փարիզում?",
+                options: ["Լյուքսեմբուրգի այգի", "Բագաթել", "Պալատինյան այգիներ", "Ռոզ գարեջուր այգի"],
+                correctAnswer: "Լյուքսեմբուրգի այգի"
+            },
+            {
+                question: "Որ երկրի մայրաքաղաքն է Բուդապեշտը?",
+                options: ["Հունգարիա", "Ռումինիա", "Չեխիա", "Սերբիա"],
+                correctAnswer: "Հունգարիա"
+            },
+            {
+                question: "Որ լեզուն է պաշտոնական լեզու Կանադայում?",
+                options: ["Ֆրանսերեն", "Անգլերեն", "Երկուսն էլ", "Գերմաներեն"],
+                correctAnswer: "Երկուսն էլ"
+            },
+            {
+                question: "Որն է ամենաբարձր լեռը աշխարհում?",
+                options: ["Կիլիմանջարո", "Հիմալայա", "Էվերեստ", "Արարատ"],
+                correctAnswer: "Էվերեստ"
+            },
+            {
+                question: "Որտեղ է հիմնադրվել ավտոմեքենաների ինդուստրիայը?",
+                options: ["ԱՄՆ", "Գերմանիա", "Ֆրանսիա", "Ճապոնիա"],
+                correctAnswer: "ԱՄՆ"
+            },
+            {
+                question: "Ով է համարվում կապույտ ոսկու սրբազանը?",
+                options: ["Նավթ", "Ջուր", "Ադամանդ", "Բարձր լարում"],
+                correctAnswer: "Ջուր"
+            },
+            {
+                question: "Ո՞ր երկիրն ունի ամենամեծ բնակչությունը աշխարհում:",
+                options: ["Հնդկաստան", "Չինաստան", "ԱՄՆ", "Բրազիլիա"],
+                correctAnswer: "Չինաստան"
+            },
+            {
+                question: "Ո՞ր քաղաքի հետ կապված է հայտնի Փարիզի աշտարակը:",
+                options: ["Բրյուսել", "Փարիզ", "Լոնդոն", "Միլան"],
+                correctAnswer: "Փարիզ"
+            },
+            {
+                question: "Ո՞րն է Միացյալ Նահանգների առաջին պետությունը:",
+                options: ["Վիրջինիա", "Նյու Յորք", "Դելավեր", "Մասաչուսեթս"],
+                correctAnswer: "Դելավեր"
+            }
+        ];
+
+        const quizForm = document.getElementById("quizForm");
+
+        quizQuestions.forEach((q, index) => {
+            const container = document.createElement("div");
+            container.classList.add("question-container");
+            const qElement = document.createElement("div");
+            qElement.classList.add("question");
+            qElement.textContent = `${index + 1}. ${q.question}`;
+            container.appendChild(qElement);
+
+            q.options.forEach(opt => {
+                const label = document.createElement("label");
+                label.innerHTML = `<input type="radio" name="q${index}" value="${opt}"> ${opt}`;
+                container.appendChild(label);
+                container.appendChild(document.createElement("br"));
+            });
+
+            quizForm.appendChild(container);
+        });
+
+        function submitQuiz() {
+            let score = 0;
+            quizQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value === q.correctAnswer) {
+                    score++;
+                }
+            });
+            document.getElementById("result").textContent = `Ճիշտ պատասխանները՝ ${score} / ${quizQuestions.length}`;
+        }
+    </script>
+</body>
+</html>
